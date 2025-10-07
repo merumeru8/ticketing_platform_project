@@ -44,11 +44,13 @@ class LoginController
             $email = $payload['email'];
             $password = $payload['password'];
             $errorMsg = "";
+            $uModel = new UserModel();
+            $userId = 0;
             
             // Basic presence + email validation
             if(! empty($email) && ! empty($password) && filter_var($email, FILTER_VALIDATE_EMAIL)){
                 try{
-                    $uModel = new UserModel();
+                    
 
                     $result = $uModel->getUserByEmail($email);
                     if($result){
@@ -57,6 +59,7 @@ class LoginController
 
                             // Single user record
                             $result = $result[0];
+                            $userId = $result['id'];
 
                             // Retrieve auth identity (user secrets)
                             $userSecret = $uModel->getUserAuthIdentity($result['id'], $result['email']);
@@ -82,6 +85,8 @@ class LoginController
                                         setSession('user_name', $result['name']);
                                         setSession('user_group', $finalGroup);
                                         setSession("isLoggedIn", true);
+
+                                        $uModel->insertNewLoginAttempt($result['id'], $email, 1);
 
                                         // Success
                                         echo json_encode(["error" => 0, "message" => ""]);
@@ -110,6 +115,9 @@ class LoginController
                     }
                 } catch (Exception $e){
                     
+                    //Register login attempt only on valid users
+                    if($userId > 0){$uModel->insertNewLoginAttempt($userId, $email, 0);}
+
                     error_log($e->getMessage());
                     http_response_code(500);
                     echo json_encode(["error" => 1, "message" => "Internal Server Error", "status" => 500]);
@@ -122,6 +130,9 @@ class LoginController
             }
         }
 
+        //Register login attempt only on valid users
+        if($userId > 0){$uModel->insertNewLoginAttempt($userId, $email, 0);}
+        
         // Unified error response
         echo json_encode(["error" => 1, "message" => $errorMsg, "status" => 200]);
     }
