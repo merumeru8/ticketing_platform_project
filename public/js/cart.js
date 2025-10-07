@@ -119,6 +119,7 @@ const CART_TOTAL_ITEM_NUMBER_CLASS = ".total_cart_item_number";
 const CART_QTY_INPUT_PREFIX = "#cart_quantity_value_";
 const CART_ITEM_PREFIX = "#cart_item-";
 const CART_REVIEW_ITEM_PREFIX = "#cart_review_item-";
+const TABLE_CART_INPUT = "#quantity_value_";
 
 /*** --------------------- CART & CHECKOUT FUNCTIONS -------------------------- */
 
@@ -170,6 +171,9 @@ function addNewRowToCart(ticketId, quantity, pricePerUnit, eventName){
     html: PLUS_ICON
   }).appendTo($qtyControl);
 
+  let $outerInput = $(TABLE_CART_INPUT+ticketId);
+  let maxValue =  parseInt($outerInput.attr("max"));
+
   // Qty input
   $("<input>", {
     type: "number",
@@ -178,7 +182,8 @@ function addNewRowToCart(ticketId, quantity, pricePerUnit, eventName){
     id: 'cart_quantity_value_'+ticketId,
     "data-ticketid": ticketId,
     value: quantity,
-    min: 0
+    min: 0,
+    max: maxValue
   }).appendTo($qtyControl);
 
   // - button
@@ -198,7 +203,7 @@ function addNewRowToCart(ticketId, quantity, pricePerUnit, eventName){
   // Line price
   $("<span>", { 
     class: "event_price", 
-    text: (quantity*pricePerUnit).toFixed(2), 
+    text: "$" + (quantity*pricePerUnit).toFixed(2), 
     css: { "margin-left": "1em" } 
   }).appendTo($infoDiv);
 
@@ -251,7 +256,7 @@ function addNewRowToReview(ticketId, quantity, pricePerUnit, eventName){
 
   $("<span>", {
     class: "event_price",
-    text: totalPrice,
+    text: "$" + totalPrice,
     css: { "margin-left": "1em" }
   }).appendTo($itemInfo);
 
@@ -264,10 +269,14 @@ function addNewRowToReview(ticketId, quantity, pricePerUnit, eventName){
  * @param {number} variation - +/- amount to apply
  */
 function updateQuantityFromCart(tId, variation){
-  let newValue = (parseInt($(CART_QTY_INPUT_PREFIX+tId).val(), 10) || 0) + variation;
+  let $input = $(CART_QTY_INPUT_PREFIX+tId);
+  let newValue = (parseInt($input.val(), 10) || 0) + variation;
+  let maxValue = (parseInt($input.attr("max")));
+
+  newValue = newValue > maxValue ? maxValue : newValue;
 
   let item = cart.items[tId];
-  if(item){
+  if(item){  
     cart.updateItem(tId, newValue, item.pricePerUnit, item.eventName);  
     updateItemInCart(tId, newValue, item.pricePerUnit);
   }
@@ -290,7 +299,7 @@ function updateItemInCart(ticketId, quantity, pricePerUnit, eventName){
         } else {
             $(CART_QTY_INPUT_PREFIX+ticketId).val(quantity);
             let newTotal = parseInt(quantity) * parseFloat(pricePerUnit);
-            $(CART_ITEM_PREFIX+ticketId).find(".event_price").text(newTotal.toFixed(2));
+            $(CART_ITEM_PREFIX+ticketId).find(".event_price").text("$" + newTotal.toFixed(2));
         }
     } else if(quantity > 0){
         addNewRowToCart(ticketId, quantity, pricePerUnit, eventName)
@@ -303,7 +312,7 @@ function updateItemInCart(ticketId, quantity, pricePerUnit, eventName){
             let $item = $(CART_REVIEW_ITEM_PREFIX+ticketId);
             $item.find('.quantity').text(quantity)
             let newTotal = parseInt(quantity) * parseFloat(pricePerUnit);
-            $item.find(".event_price").text(newTotal.toFixed(2));
+            $item.find(".event_price").text("$" + newTotal.toFixed(2));
         }
     } else if(quantity > 0){
         addNewRowToReview(ticketId, quantity, pricePerUnit, eventName)
