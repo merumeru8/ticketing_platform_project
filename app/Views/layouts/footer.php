@@ -29,6 +29,14 @@
             location.href = $("#"+tableId).data("url") + "?search=" + $(this).siblings("input").val() + (active ? "" : "&deleted=1");
         });
 
+        $(".search_query").on("keypress", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+
+                $(this).siblings(".search_input_go").trigger("click");
+            }
+        });
+        
         $(".see_active_btn").on("click", function(){
 
             let parameters = $(this).data("jsparams");
