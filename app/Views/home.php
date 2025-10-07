@@ -1,9 +1,5 @@
 <?php
 
-use App\Views\Components\Button;
-use App\Views\Components\Popup;
-use App\Views\Components\Table;
-
  require_once "layouts/header.php"; ?>
 
 <!-- Page: Home | Shows public tickets and integrates cart popup -->
@@ -14,13 +10,13 @@ use App\Views\Components\Table;
         include 'cart_modal.php';  // This file outputs some HTML content
         $content = ob_get_clean(); // Get the content as a string
 
-        echo Popup::generatePopup("cart_modal_id", $content, "", true); 
+        echo \App\Views\components\Popup::generatePopup("cart_modal_id", $content, "", true); 
     ?>
     <!-- Cart quick actions (open/empty) and summary -->
     <div class="cart_wrapper">
         <!-- Cart Button -->
-        <?php echo Button::generateButton("go_to_cart_btn", "cart_btns", CART_ICON, []) ?>
-        <?php echo Button::generateButton("empty_cart_btn", "cart_btns red_tool", DELETE_ICON, []) ?>
+        <?php echo \App\Views\components\Button::generateButton("go_to_cart_btn", "cart_btns", CART_ICON, []) ?>
+        <?php echo \App\Views\components\Button::generateButton("empty_cart_btn", "cart_btns red_tool", DELETE_ICON, []) ?>
         
 
         <!-- Cart Preview Info -->
@@ -52,17 +48,17 @@ use App\Views\Components\Table;
                 }
                 
                 $title = $t['title_tooltip'] != "" ? 
-                    Button::generateToolButton("sold_out_".$t['id'], "red_tool no_hover", EXCLAMATION_ICON, [], ["disabled" => false, "tooltip" => $t['title_tooltip']]) ."  ". $t['title'] :
+                    \App\Views\components\Button::generateToolButton("sold_out_".$t['id'], "red_tool no_hover", EXCLAMATION_ICON, [], ["disabled" => false, "tooltip" => $t['title_tooltip']]) ."  ". $t['title'] :
                     $t['title'];
 
                 // row quantity controls and add to cart button
                 $toolBox = 
                 '<div class="table_cart flex_row_center">'.
                     '<div class="quantity_control">'.
-                        Button::generateToolButton("", "qty_btn plus", PLUS_ICON, [], ["disabled" => $t['sold_out'], "tooltip" => ""]) .
+                        \App\Views\components\Button::generateToolButton("", "qty_btn plus", PLUS_ICON, [], ["disabled" => $t['sold_out'], "tooltip" => ""]) .
                         "<input type='number' name='quantity' id='quantity_value_". $t['id'] . "' value='0' min='0' max='". $t['tickets_available'] ."' class='qty_input'>" . 
-                        Button::generateToolButton("", "qty_btn minus", MINUS_ICON, [], ["disabled" => $t['sold_out'], "tooltip" => ""]) .
-                        Button::generateButton("", "add_to_cart_btns", "Add to cart", [$t['id'], $t['price'], $t['title']], [$t['sold_out'], ""]) . 
+                        \App\Views\components\Button::generateToolButton("", "qty_btn minus", MINUS_ICON, [], ["disabled" => $t['sold_out'], "tooltip" => ""]) .
+                        \App\Views\components\Button::generateButton("", "add_to_cart_btns", "Add to cart", [$t['id'], $t['price'], $t['title']], [$t['sold_out'], ""]) . 
                     '</div>' .
                     
                 '</div>';
@@ -80,7 +76,7 @@ use App\Views\Components\Table;
             }
 
             // Instantiate Table component and render
-            $table = new Table("/", $headers, $rows, []);
+            $table = new \App\Views\components\Table("/", $headers, $rows, []);
 
             echo $table->tableHtml("home_events_table");
         ?>

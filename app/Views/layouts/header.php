@@ -1,7 +1,3 @@
-<?php
-
-use App\Views\Components\Button;
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +46,7 @@ use App\Views\Components\Button;
                 </div>
             </div>
             <?php endif;?>
-            <?= (getSession("isLoggedIn") ? Button::generateButton("logout_btn", "", "Logout", []) : Button::generateButton("login_btn", "", "Login", [])) ?>
+            <?= (getSession("isLoggedIn") ? \App\Views\components\Button::generateButton("logout_btn", "", "Logout", []) : \App\Views\components\Button::generateButton("login_btn", "", "Login", [])) ?>
         </div>
     </div>
 </header>

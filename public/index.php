@@ -6,7 +6,7 @@ session_start();
 
 // Helpers + Constants
 require_once('../app/Helpers/functions.php');
-require_once ('../app/Config/constants.php');
+require_once('../app/Config/Constants.php');
 
 //Simple autoloader to automatically load classes without using Composer
 spl_autoload_register(function ($name) {
@@ -16,7 +16,7 @@ spl_autoload_register(function ($name) {
         $name = substr($name, strlen($prefix));
     }
 
-    $path = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $name) . '.php';
+    $path = '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $name) . '.php';
 
     if (file_exists($path)) {
         require_once $path;

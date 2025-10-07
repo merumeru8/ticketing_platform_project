@@ -33,7 +33,8 @@ class Routing
         foreach ($routes as $route){
             if ($this->validateRoute($route['url'])){
                 // On first match, capture controller/method/access requirements and stop
-                $this->controller = 'Controllers' . DIRECTORY_SEPARATOR . $route['controller'];
+                $this->controller = 'Controllers\\' .$route['controller'];
+                
                 $this->method = $route['method'];
                 $this->authorizedGroup = $route['authorized_group'];
                 break;

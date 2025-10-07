@@ -1,7 +1,5 @@
 <?php
 
-use App\Views\Components\Button;
-
  require_once __DIR__ . "/../layouts/header.php"; ?>
      
 <!-- Register view -->
@@ -98,7 +96,7 @@ use App\Views\Components\Button;
 
                                 <div class="center-form">
                                      <!-- Submit button -->
-                                    <?= Button::generateButton("submit-btn", "submit_btns", "Register", []) ?>
+                                    <?= \App\Views\components\Button::generateButton("submit-btn", "submit_btns", "Register", []) ?>
                                 </div>
 
                             </div>

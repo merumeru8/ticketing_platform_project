@@ -1,7 +1,5 @@
 <?php
 
-use App\Views\Components\Button;
-
  require_once __DIR__ . "/../layouts/header.php"; ?>
      
 <!-- Page: Login view | Comments added for structure and JS hooks -->
@@ -58,7 +56,7 @@ use App\Views\Components\Button;
 
                                 <div class="center-form">
                                     <!-- Submit button -->
-                                    <?= Button::generateButton("submit-btn", "submit_btns", "Login", []) ?>
+                                    <?= \App\Views\components\Button::generateButton("submit-btn", "submit_btns", "Login", []) ?>
                                 </div>
                             </div>
                         </div>

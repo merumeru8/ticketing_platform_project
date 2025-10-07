@@ -1,6 +1,3 @@
-<?php
-use App\Views\Components\Button;
-?>
 <!-- Cart modal content: nav bar + cart/review phaes -->
 
 <div class='cart_content flex_column' style="padding-top: 10px;">
@@ -25,8 +22,8 @@ use App\Views\Components\Button;
         </div>
         <div class='btn_wrap_margin'>
             <!-- proceed/cacel actions-->
-            <?php echo Button::generateButton('cart_btn_proceed', "", "Proceed To Review", []); ?>
-            <?php echo Button::generateButton('cart_btn_cancel', "", "Cancel", []); ?>
+            <?php echo \App\Views\components\Button::generateButton('cart_btn_proceed', "", "Proceed To Review", []); ?>
+            <?php echo \App\Views\components\Button::generateButton('cart_btn_cancel', "", "Cancel", []); ?>
         </div>
     </div>
 
@@ -44,8 +41,8 @@ use App\Views\Components\Button;
         </div>
         <div class='btn_wrap_margin'>
             <!-- checkout/back actions-->
-            <?php echo Button::generateButton('review_btn_checkout', "review_btns", "Checkout", []); ?>
-            <?php echo Button::generateButton('review_btn_back', "review_btns", "Back", []); ?>
+            <?php echo \App\Views\components\Button::generateButton('review_btn_checkout', "review_btns", "Checkout", []); ?>
+            <?php echo \App\Views\components\Button::generateButton('review_btn_back', "review_btns", "Back", []); ?>
         </div>
     </div>
 </div>

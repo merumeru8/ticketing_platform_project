@@ -1,14 +1,10 @@
 <?php
-
-use App\Views\Components\Button;
-use App\Views\Components\Table;
-
 require_once "layouts/header.php"; ?>
 
 <!-- Page: Organizer Home | Manage your events list -->
 <main id="main" class="site-main">
     <!-- Actions: create new event -->
-    <div class='flex_row_center' style="direction: rtl;"><a href='/organizer/event' ><?php echo Button::generateButton("create_new_event_btn", "", "Create new Ticket", []) ?></a></div>
+    <div class='flex_row_center' style="direction: rtl;"><a href='/organizer/event' ><?php echo \App\Views\components\Button::generateButton("create_new_event_btn", "", "Create new Ticket", []) ?></a></div>
     <!-- Listing header -->
     <h3 class='inner_section_title'>My Tickets</h3>
     <div class='flex_column'>
@@ -19,8 +15,8 @@ require_once "layouts/header.php"; ?>
                 $row = $t;
 
                 //$visibility = $t['visibility'] ? 
-                //    Button::generateToolButton("visibility_".$t['id'], "green_tool visible_event_icon no_hover", STORE_ICON, [], ["disabled" => false, "tooltip" => "Public"]) :
-                //    Button::generateToolButton("visibility_".$t['id'], "yellow_tool no_hover", LOCK_ICON, [], ["disabled" => false, "tooltip" => "Private"]);
+                //    \App\Views\components\Button::generateToolButton("visibility_".$t['id'], "green_tool visible_event_icon no_hover", STORE_ICON, [], ["disabled" => false, "tooltip" => "Public"]) :
+                //    \App\Views\components\Button::generateToolButton("visibility_".$t['id'], "yellow_tool no_hover", LOCK_ICON, [], ["disabled" => false, "tooltip" => "Private"]);
 
                 $visibility = $t['visibility'] ? 
                     "<div class='blue_status'>Public</div>" : 
@@ -32,7 +28,7 @@ require_once "layouts/header.php"; ?>
                 }else {
                     $title = "<a href='/organizer/event/".$t['id']."'>". $t['title'] . "</a>";
                     $title = $t['sold_out'] ? 
-                        Button::generateToolButton("sold_out_".$t['id'], "red_tool no_hover", EXCLAMATION_ICON, [], ["disabled" => false, "tooltip" => "Sold out!"]) ."  ". $title :
+                        \App\Views\components\Button::generateToolButton("sold_out_".$t['id'], "red_tool no_hover", EXCLAMATION_ICON, [], ["disabled" => false, "tooltip" => "Sold out!"]) ."  ". $title :
                         $title;
                 }
 
@@ -45,8 +41,8 @@ require_once "layouts/header.php"; ?>
 
                 // Tool buttons: edit/delete or restore
                 $t['deleted'] ? 
-                    $toolBox = Button::toolsBox("", ["restore_event_btns"], [RESTORE_ICON], [[$t['id']]], ["Restore"], [""], [false]) :
-                    $toolBox = Button::toolsBox("", ["blue_tool edit_event_btns", "red_tool delete_event_btns"], [EDIT_ICON, DELETE_ICON], [[$t['id']],[$t['id']]], ["Edit", "Delete"], [$t['past'], $t['past']]);
+                    $toolBox = \App\Views\components\Button::toolsBox("", ["restore_event_btns"], [RESTORE_ICON], [[$t['id']]], ["Restore"], [""], [false]) :
+                    $toolBox = \App\Views\components\Button::toolsBox("", ["blue_tool edit_event_btns", "red_tool delete_event_btns"], [EDIT_ICON, DELETE_ICON], [[$t['id']],[$t['id']]], ["Edit", "Delete"], [$t['past'], $t['past']]);
                 
 
                 $rows[] = [
@@ -64,7 +60,7 @@ require_once "layouts/header.php"; ?>
             }
 
             // Instantiate Table with search + archived toggle
-            $table = new Table("/organizer", $headers, $rows, ['Active Tickets' => !$deleted, 'Deleted Tickets' => $deleted], $search);
+            $table = new \App\Views\components\Table("/organizer", $headers, $rows, ['Active Tickets' => !$deleted, 'Deleted Tickets' => $deleted], $search);
 
             echo $table->tableWithSearchDisplay("organizer_events_table");
         ?>
