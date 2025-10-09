@@ -1,7 +1,7 @@
 ## Ticketing Platform App
 
 A simple web application built in pure PHP using a custom MVC architecture.  
-The web application is a ticketing platform with full CRUD capabilities for two types of users (event organizers and customer/buyers).  
+The web application is a ticketing platform with full CRUD capabilities and two types of users (event organizers and customer/buyers).  
 This project demonstrates how to organize and structure a PHP application without relying on external frameworks or third-party packages, while keeping the codebase clean, modular, and easy to maintain.
 
 ---
